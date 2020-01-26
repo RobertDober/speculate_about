@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'lab42_speculate'
-  s.version     = '0.0.2'
+  s.version     = '0.0.3'
   s.date        = '2020-01-26'
   s.summary     = 'Extract RSpecs from Markdown'
   s.description = 'Extract RSpecs from Markdown'

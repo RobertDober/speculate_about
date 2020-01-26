@@ -9,7 +9,7 @@ module Speculate::Dirs extend self
 
   attr_reader :base_dir
 
-  def speculation_to_dir speculation_file, base_dir: "spec/speculations"
+  def speculation_to_dir speculation_file, base_dir
     @base_dir = base_dir
 
     _assure_dir
@@ -26,10 +26,8 @@ module Speculate::Dirs extend self
   end
 
   def _assure_speculation speculation_file
-    match = SPECULATION_RGX.match(speculation_file)
-    raise Error, "#{speculation_file} is not a speculation" unless match
 
-    basename = match[1].empty? ? DEFAULT_BASENAME : match[1]
+    basename = File.basename(speculation_file).sub(%r{\..*\z}i, "").downcase
     specname = File.join(base_dir, "#{basename}_spec.rb")
 
     [speculation_file, specname]

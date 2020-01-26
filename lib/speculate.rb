@@ -1,14 +1,31 @@
 module Speculate extend self
-  SPECULATIONS_GLOB = "SPECULATE*.md"
+  require_relative 'speculate/args'
   require_relative 'speculate/dirs'
   require_relative 'speculate/generator'
+
+  BASE_DIR = 'spec/speculations'
+
+  attr_reader :args
+
+  def base_dir
+    @__base_dir__ ||= args.fetch!(:dest, BASE_DIR) 
+  end
 
   def speculations
     @__speculations__ ||= _speculations
   end
 
+  def speculations_dir
+    @__speculations_dir__ ||= args.fetch!(:dir, 'spec/speculations')
+  end
+
+  def speculations_glob
+    @__speculations_glob__ ||= args.fetch!(:glob, '**/*.md')
+  end
+
   def run args
-    if args[0] == ":force"
+    @args = Args.new args
+    if @args.flag!(:force)
       _force speculations
     end
     speculations
@@ -27,14 +44,14 @@ module Speculate extend self
   end
 
   def _speculations
-    speculations = Dir.glob(SPECULATIONS_GLOB)
+    speculations = Dir.glob(File.join(speculations_dir, speculations_glob))
     if speculations.any?
       puts "Speculations found: #{speculations}"
     else
       puts "No Speculations found!!!! :O :O :O"
       return []
     end
-    speculations.map{ |speculation| Dirs.speculation_to_dir(speculation) }
+    speculations.map{ |speculation| Dirs.speculation_to_dir(speculation, base_dir) }
   end
 
 end
