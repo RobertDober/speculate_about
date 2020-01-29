@@ -30,12 +30,28 @@ you can change this with the `dest: ...` parameter.
 
 ## Examples
 
-```ruby speculate
+### First of all let us define an around block
+
+It will be emitted around the concatenation of all other speculations
+
+It is a code block marked with ` ```ruby around`
+
+```ruby around
 describe Speculate do
+  let(:value) { 42 }
   let(:subject){ described_class }
+  ...
+end
+```
+
+The line containing only whitespace and the `...` is, of course, replaced by the concatenated
+speculations.
+
+```ruby speculate
   it 'is a module' do
     expect( subject ).to be_kind_of(Module)
   end
-end
-    
+  it 'of great value' do
+    expect(value).to eq(42)
+  end
 ```

@@ -14,7 +14,11 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'speculate'
-Dir.glob(File.expand_path('../support/**/*.rb',__FILE__)).each{ |f| require f }
+require 'speculations'
+require 'speculate_about'
+
+RSPEC_ROOT = File.dirname(__FILE__)
+Dir.glob(File.expand_path('support/**/*.rb',RSPEC_ROOT)).each{ |f| require f }
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
