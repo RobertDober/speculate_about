@@ -1,11 +1,5 @@
 require 'speculate/args'
 RSpec.describe Speculate::Args do
-  # Uncomment this for ConsoleDrivenDevelopment of
-  # defining the specs from the parser's AST
-  # after :all do
-  #   require 'pry'; binding.pry
-  #   42
-  # end
   context "empty gracefully supports all methods" do
     let(:args) { described_class.new([]) }
 

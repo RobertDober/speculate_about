@@ -30,11 +30,18 @@ class Speculations::Parser
   end
 
   def parse!
-    root = node = Context.new(name: '__ROOT__', lnb: 0, parent: nil)
+    root = node = Context.new(name: "Speculations from #{@filename}", lnb: 0, filename: @filename, parent: nil)
     input.each_with_index do |line, lnb|
-      # p [line, @state, node.class, node.parent.class]
+      debug line, @state, node.class, node.parent.class
       @state, node = self.class.parsers.fetch(@state).parse(line, lnb.succ, node)
     end
     root
+  end
+
+  def debug *args
+    case ENV["DEBUG"].to_i
+    when 1
+      p args
+    end
   end
 end

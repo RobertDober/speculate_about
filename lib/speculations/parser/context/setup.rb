@@ -11,6 +11,14 @@ class Speculations::Parser::Context::Setup
      @__lines__ ||= []
   end
 
+  def to_code
+    parent.map_lines("before do") + 
+      "\n" +
+      parent.map_lines(lines, indent: 1) +
+      "\n" +
+      parent.map_lines("end")
+  end
+
 
   private
 

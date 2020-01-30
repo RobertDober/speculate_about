@@ -11,6 +11,10 @@ class Speculations::Parser::Context::Include
      @__lines__ ||= []
   end
 
+  def to_code
+    parent.map_lines(lines)
+  end
+
   private
 
   def initialize(parent:, lnb:)

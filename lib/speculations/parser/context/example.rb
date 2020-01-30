@@ -11,11 +11,24 @@ class Speculations::Parser::Context::Example
      @__lines__ ||= [] 
   end
 
+  def to_code
+    parent.map_lines(_example_head) +
+      "\n" +
+      parent.map_lines(lines, indent: 1) +
+      "\n" +
+      parent.map_lines("end")
+  end
+
+
   private
 
-  def initialize(lnb:, file: nil, parent:)
+  def initialize(lnb:, parent:)
     @lnb    = lnb
-    @name   = "Example #{file} at line #{lnb}"
+    @name   = "Example from #{parent.filename}:#{lnb.succ}"
     @parent = parent
+  end
+
+  def _example_head
+    %{it "#{name}" do}
   end
 end
