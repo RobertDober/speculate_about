@@ -1,9 +1,9 @@
 Gem::Specification.new do |s|
-  s.name        = 'lab42_speculate'
-  s.version     = '0.0.4'
-  s.date        = '2020-01-26'
+  s.name        = 'speculate_about'
+  s.version     = '0.1.0'
+  s.date        = '2020-01-31'
   s.summary     = 'Extract RSpecs from Markdown'
-  s.description = 'Extract RSpecs from Markdown'
+  s.description = 'Allows Markdown files to be used as literal specs, a la Elixr doctest, but from any file.'
   s.authors     = ['Robert Dober']
   s.email       = 'robert.dober@gmail.com'
   s.files       = Dir.glob('lib/**/*.rb')
@@ -14,9 +14,8 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.7.0'
   s.executables << 'speculate' 
 
-  s.add_dependency 'parser', '~> 2.7.0'
+  s.add_dependency 'rspec', '~> 3.9'
 
-  s.add_development_dependency 'rspec', '~> 3.9'
   s.add_development_dependency 'pry-byebug', '~> 3.7'
 end
 
