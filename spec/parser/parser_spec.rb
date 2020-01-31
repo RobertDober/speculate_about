@@ -63,7 +63,7 @@ RSpec.describe Speculations::Parser do
 
       it "has one example" do
         expect(context.examples.map(&:lines)).to eq([
-          ["  expect(@half).to eq(42)"]
+          ["  expect(@half).to eq(21)"]
         ])
         expect(context.examples.first.name).to eq(example_location(34))
       end
@@ -168,7 +168,7 @@ RSpec.describe Speculations::Parser do
               @half = value / 2
             end
             it "#{example_location 34}" do
-              expect(@half).to eq(42)
+              expect(@half).to eq(21)
             end
           end
           context "without `@half`, overriding value" do

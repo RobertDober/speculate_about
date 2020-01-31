@@ -31,7 +31,7 @@ Let us change context
 Now an example like the following will pass:
 
 ```ruby :example
-  expect(@half).to eq(42)
+  expect(@half).to eq(21)
 ```
 
 However this will not apply anymore if we change the context
