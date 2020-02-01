@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/RobertDober/speculate_about.svg?branch=master)](https://travis-ci.org/RobertDober/speculate_about)
 [![Gem Version](https://badge.fury.io/rb/speculate_about.svg)](http://badge.fury.io/rb/speculate_about)
 
 # Speculate
