@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'speculate_about'
   s.version     = '0.1.0'
-  s.date        = '2020-01-31'
+  s.date        = '2020-02-01'
   s.summary     = 'Extract RSpecs from Markdown'
   s.description = 'Allows Markdown files to be used as literal specs, a la Elixr doctest, but from any file.'
   s.authors     = ['Robert Dober']
@@ -16,6 +16,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rspec', '~> 3.9'
 
-  s.add_development_dependency 'pry-byebug', '~> 3.7'
 end
 

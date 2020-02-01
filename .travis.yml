@@ -8,5 +8,5 @@ rvm:
 
 script: 
   - bundle exec rspec spec
-  # - CODECLIMATE_REPO_TOKEN=${CODECLIMATE_LAB42CORE_TOKEN} bundle exec codeclimate-test-reporter
+  - CODECLIMATE_REPO_TOKEN=${CODECLIMATE_LAB42CORE_TOKEN} bundle exec codeclimate-test-reporter
 
