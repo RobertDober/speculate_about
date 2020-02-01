@@ -6,7 +6,17 @@ language: ruby
 rvm:
   - "2.7.0"
 
-script: 
-  - bundle exec rspec spec
-  - CODECLIMATE_REPO_TOKEN=${CODECLIMATE_LAB42CORE_TOKEN} bundle exec codeclimate-test-reporter
+env:
+  global:
+    - CC_TEST_REPORTER_ID=9db910701394be68100d66a4d6ced23f368a56b7
 
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script:
+  - bundle exec rspec
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
