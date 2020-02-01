@@ -1,9 +1,9 @@
 Gem::Specification.new do |s|
   s.name        = 'speculate_about'
-  s.version     = '0.1.0'
-  s.date        = '2020-02-01'
+  s.version     = '0.1.1'
+  s.date        = '2020-02-02'
   s.summary     = 'Extract RSpecs from Markdown'
-  s.description = 'Allows Markdown files to be used as literal specs, a la Elixr doctest, but from any file.'
+  s.description = 'Allows Markdown or other text files to be used as literal specs, a la Elixr doctest, but from any file.'
   s.authors     = ['Robert Dober']
   s.email       = 'robert.dober@gmail.com'
   s.files       = Dir.glob('lib/**/*.rb')

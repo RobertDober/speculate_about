@@ -132,7 +132,13 @@ In the spirit of this tool one would use a ` ```ruby :before`  block together wi
    expect(@lemmings).to eq([*1..41])
 ```
 
+Furthermore one can name examples by means of ` ```ruby example: Some long name until the end of the line`
 
+So for this example, named `named examples are new in v0.1.1`:
+
+specexa 
+
+specexa 
 ## Contexts
 
 And last but not least we can create contexts (just one level though, a limitation which we consider rather a feature)
@@ -180,6 +186,75 @@ README.md
 
 ## Debugging
 
+By setting the environment variable `SPECULATE_ABOUT_DEBUG` the tool will print the code that will be instance evalled on
+the `RSpec::ExampleGroup` to standard out instead of runnin the specs
+
+```
+SPECULATE_ABOUT_DEBUG= rspec spec/speculate_about/readme_spec.rb --format doc                                                                          [20:38:56]
+context "Speculations from README.md" do
+  let(:answer){ 42 }
+  
+  context "Lemmings" do
+  let(:number) { 42 }
+  before do
+  @lemmings = [*1..number]
+  end
+  it "they can fall down" do
+  move
+  expect(@lemmings).to eq([*1..41])
+  end
+  
+  def move
+  @lemmings.pop
+  end
+  
+  end
+  let(:number){ 42 }
+  
+  def move
+  @lemmings.pop
+  end
+  before do
+    @lemmings = [*1..number]
+    
+  end
+  it "Example from README.md:40" do
+    list = []
+    expect(list).to be_empty
+  end
+  it "Example from README.md:69" do
+    expect(answer - 42).to be_zero
+  end
+  it "Example from README.md:131" do
+    move
+    expect(@lemmings).to eq([*1..41])
+  end
+  context "This is sooo coooool" do
+    let(:temperature){ 0 }
+    let(:just_right){ 42 }
+    before do
+      @current = temperature
+      
+      def heat
+      @current += 1
+      end
+    end
+    it "Example from README.md:166" do
+      42.times{ heat }
+      expect(@current).to eq(just_right)
+    end
+  end
+end
+No examples found.
+
+Finished in 0.00038 seconds (files took 0.13756 seconds to load)
+0 examples, 0 failures
+```
+
+## File Search Paths
+
+`speculate_about` will look for its argument first in the current dir `.` and then in the spec dir `spec`. If
+no corresponding file is found it raises an `ArgumentError`.
 ## LICENSE
 
 Copyright 2020 Robert Dober robert.dober@gmail.com
