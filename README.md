@@ -1,3 +1,5 @@
+[![Gem Version](https://badge.fury.io/rb/speculate_about.svg)](http://badge.fury.io/rb/speculate_about)
+
 # Speculate
 
 Extract RSpec example groups from Markdown
