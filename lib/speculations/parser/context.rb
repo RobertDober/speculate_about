@@ -77,7 +77,4 @@ class Speculations::Parser::Context
     map_lines("end", indent: -1)
   end
 
-  def _map_elements collection
-    collection.map(&:to_code).join("\n")
-  end
 end
