@@ -12,7 +12,6 @@ Gem::Specification.new do |s|
   s.license       = 'Apache-2.0'
 
   s.required_ruby_version = '>= 2.7.0'
-  s.executables << 'speculate' 
 
   s.add_dependency 'rspec', '~> 3.9'
 
