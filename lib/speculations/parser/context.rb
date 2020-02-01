@@ -57,6 +57,7 @@ class Speculations::Parser::Context
 
   def initialize(lnb:, name:, filename: nil, parent: nil)
     _init_from_parent filename, parent
+    @level    = parent ? parent.level.succ : 1
     @lnb      = lnb
     @setup    = nil
     @name     = name
@@ -70,7 +71,6 @@ class Speculations::Parser::Context
   def _init_from_parent filename, parent
     @filename = parent ? parent.filename : filename
     raise ArgumentError, "no filename given in root context" unless @filename
-    @level    = parent ? parent.level.succ : 1
   end
 
   def _footer
