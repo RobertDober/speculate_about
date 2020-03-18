@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'speculate_about'
-  s.version     = '0.1.1'
-  s.date        = '2020-02-02'
+  s.version     = '0.1.2'
+  s.date        = '2020-03-18'
   s.summary     = 'Extract RSpecs from Markdown'
   s.description = 'Allows Markdown or other text files to be used as literal specs, a la Elixr doctest, but from any file.'
   s.authors     = ['Robert Dober']

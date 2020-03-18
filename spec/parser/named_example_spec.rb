@@ -4,7 +4,7 @@ RSpec.describe Speculations::Parser do
   let(:parser) { described_class.new }
   let(:fixture){ fixtures_path("NAMED_EXAMPLE.md") }
 
-  let!(:ast)   { parser.parse_from_file(fixture) }
+  let!(:ast)   { parser.parse_from_file(fixture, "NAMED_EXAMPLE.md") }
 
   context "SPECULATION -> ast" do
 

@@ -5,15 +5,15 @@ require 'speculations/parser'
 module SpeculateAbout
   def speculate_about file
     path = _find_file(file, File.dirname( caller.first ))
-    code = _compile path
+    code = _compile path, file
     ENV["SPECULATE_ABOUT_DEBUG"] ? puts(code) : instance_eval(code)
   end
 
 
   private
 
-  def _compile path
-    ast  = Speculations::Parser.new.parse_from_file(path)
+  def _compile path, file
+    ast  = Speculations::Parser.new.parse_from_file(path, file)
     ast.to_code
   end
   def _find_file file, local_path
