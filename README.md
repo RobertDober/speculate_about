@@ -8,6 +8,20 @@
 
 Extract RSpec example groups from Markdown
 
+## Installation
+
+### Bundler
+
+```ruby
+    gem "speculate_about"
+```
+
+### In your specs
+
+```ruby
+    require 'speculate_about'
+```
+
 ## Introduction
 
 Speculate allows to extract `RSpec` contexts, examples, `lets` and other macros, as well as `before`
@@ -132,13 +146,32 @@ In the spirit of this tool one would use a ` ```ruby :before`  block together wi
    expect(@lemmings).to eq([*1..41])
 ```
 
-Furthermore one can name examples by means of ` ```ruby example: Some long name until the end of the line`
+#### Context Named Examples
+
+Furthermore one can name examples by means of ` ```ruby :example Some long name until the end of the line `
+
+Than the output will still contain the filename and line number but preceeded by the example's name
 
 So for this example, named `named examples are new in v0.1.1`:
 
-specexa 
 
-specexa 
+```ruby :example named examples are new in v0.1.1
+  expect(1).to eq(1)
+```
+
+Which produces the following output
+
+```
+    ...
+     Named Examples
+      named examples are new in v0.1.1 (README.md:159)
+    ...
+
+```
+
+
+
+
 ## Contexts
 
 And last but not least we can create contexts (just one level though, a limitation which we consider rather a feature)

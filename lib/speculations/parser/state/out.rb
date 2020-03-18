@@ -13,7 +13,7 @@ module Speculations
             node = node.set_setup(lnb: lnb)
             [:bef, node]
           when State.example_match(line)
-            node = node.add_example(lnb: lnb)
+            node = node.add_example(lnb: lnb, line: line)
             [:exa, node]
           when State.include_match(line)
             node = node.add_include(lnb: lnb)

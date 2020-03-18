@@ -1,4 +1,4 @@
-# A short but feature complete speculation
+# A short speculation
 
 ## This does nothing...
 

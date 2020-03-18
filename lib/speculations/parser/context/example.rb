@@ -2,6 +2,8 @@ class Speculations::Parser::Context::Example
 
   attr_reader :lnb, :name, :parent
 
+  NAMED_EXAMPLE = %r{\A[`~]{3,}ruby\s+:example\s+(.*)}
+
   def add_line line
     lines << line
     self
@@ -22,10 +24,20 @@ class Speculations::Parser::Context::Example
 
   private
 
-  def initialize(lnb:, parent:)
+  def initialize(lnb:, line:, parent:)
     @lnb    = lnb
-    @name   = "Example from #{parent.filename}:#{lnb.succ}"
     @parent = parent
+    @name   = _compute_name(lnb: lnb, line: line, parent: parent)
+  end
+
+  def _compute_name(lnb:, parent:, line:)
+    _, name = NAMED_EXAMPLE.match(line).to_a
+    
+    if name&.empty? == false # SIC
+      "#{name} (#{File.basename(parent.filename)}:#{lnb.succ})"
+    else
+      "Example from #{parent.filename}:#{lnb.succ}"
+    end
   end
 
   def _example_head

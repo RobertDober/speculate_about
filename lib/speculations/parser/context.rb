@@ -11,8 +11,8 @@ class Speculations::Parser::Context
     children.last
   end
 
-  def add_example(lnb:)
-    examples << Example.new(lnb: lnb, parent: self)
+  def add_example(lnb:, line:)
+    examples << Example.new(lnb: lnb, parent: self, line: line)
     examples.last
   end
 
