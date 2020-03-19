@@ -34,9 +34,9 @@ class Speculations::Parser::Context::Example
     _, name = NAMED_EXAMPLE.match(line).to_a
     
     if name&.empty? == false # SIC
-      "#{name} (#{File.basename(parent.filename)}:#{lnb.succ})"
+      "#{name} (#{parent.orig_filename}:#{lnb.succ})"
     else
-      "Example from #{parent.filename}:#{lnb.succ}"
+      "Example from #{parent.orig_filename}:#{lnb.succ}"
     end
   end
 

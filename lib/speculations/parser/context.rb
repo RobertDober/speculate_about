@@ -3,7 +3,7 @@ class Speculations::Parser::Context
   require_relative './context/example'
   require_relative './context/setup'
 
-  attr_reader :filename, :level, :lnb, :name, :parent, :setup
+  attr_reader :filename, :level, :lnb, :name, :orig_filename, :parent, :setup
 
   def add_child(name:, lnb:)
     raise "Illegal nesting" if parent
@@ -55,21 +55,22 @@ class Speculations::Parser::Context
   
   private
 
-  def initialize(lnb:, name:, filename: nil, parent: nil)
-    _init_from_parent filename, parent
-    @level    = parent ? parent.level.succ : 1
-    @lnb      = lnb
-    @setup    = nil
-    @name     = name
-    @parent   = parent
+  def initialize(lnb:, name:, filename: nil, orig_filename: nil, parent: nil)
+    _init_from_parent filename, orig_filename, parent
+    @level         = parent ? parent.level.succ : 1
+    @lnb           = lnb
+    @setup         = nil
+    @name          = name
+    @parent        = parent
   end
 
   def _header
     map_lines(%{context "#{name}" do}, indent: -1)
   end
 
-  def _init_from_parent filename, parent
+  def _init_from_parent filename, orig_filename, parent
     @filename = parent ? parent.filename : filename
+    @orig_filename = parent ? parent.orig_filename : orig_filename
     raise ArgumentError, "no filename given in root context" unless @filename
   end
 

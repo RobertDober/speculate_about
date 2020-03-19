@@ -2,9 +2,10 @@ require 'speculations/parser'
 RSpec.describe Speculations::Parser do
 
   let(:parser) { described_class.new }
-  let(:fixture){ fixtures_path("SPECULATION1.md") }
+  let(:name)   { "SPECULATION1.md" }
+  let(:fixture){ fixtures_path(name) }
 
-  let!(:ast)   { parser.parse_from_file(fixture) }
+  let!(:ast)   { parser.parse_from_file(fixture, name) }
 
   context "SPECULATION1 -> ast" do
 
@@ -192,6 +193,6 @@ RSpec.describe Speculations::Parser do
   end
 
   def example_location lnb
-    ["Example from #{fixture}", lnb].join(":")
+    ["Example from #{name}", lnb].join(":")
   end
 end
