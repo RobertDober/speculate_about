@@ -24,16 +24,18 @@ class Speculations::Parser::Context::Example
 
   private
 
-  def initialize(lnb:, line:, parent:)
+  def initialize(lnb:, line:, parent:, name: nil)
     @lnb    = lnb
     @parent = parent
-    @name   = _compute_name(lnb: lnb, line: line, parent: parent)
+    @name   = _compute_name(lnb: lnb, line: line, parent: parent, name: name)
   end
 
-  def _compute_name(lnb:, parent:, line:)
-    _, name = NAMED_EXAMPLE.match(line).to_a
+  def _compute_name(lnb:, parent:, line:, name:)
+    _, name1 = NAMED_EXAMPLE.match(line).to_a
     
-    if name&.empty? == false # SIC
+    if name1&.empty? == false # SIC
+      "#{name1} (#{parent.orig_filename}:#{lnb.succ})"
+    elsif name
       "#{name} (#{parent.orig_filename}:#{lnb.succ})"
     else
       "Example from #{parent.orig_filename}:#{lnb.succ}"

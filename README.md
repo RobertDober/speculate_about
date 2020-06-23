@@ -148,28 +148,37 @@ In the spirit of this tool one would use a ` ```ruby :before`  block together wi
 
 #### Context Named Examples
 
-Furthermore one can name examples by means of ` ```ruby :example Some long name until the end of the line `
+Furthermore one can name examples by 2 means.
+
+Either by anotating the example triggering code block like this: ` ```ruby :example Some long name until the end of the line `
+
+Or by starting a line after your last example and before your example with `Example: Name of the next example`
 
 Than the output will still contain the filename and line number but preceeded by the example's name
 
-So for this example, named `named examples are new in v0.1.1`:
+#### Two examples for that
+
+Firstly `named examples are new in v0.1.1`:
 
 
 ```ruby :example named examples are new in v0.1.1
   expect(1).to eq(1)
 ```
 
-Which produces the following output
+And secondly `name from "Example: ..." line is new in v0.2.0`
 
-```
-    ...
-     Named Examples
-      named examples are new in v0.1.1 (README.md:159)
-    ...
+Example: Names from outside are new in v0.2.0
 
+```ruby :example
+  expect(2).to eq(2)
 ```
 
+Which now produces the following output
 
+
+      Named Examples
+        named examples are new in v0.1.1 (README.md:165)
+        Names from outside are new in v0.2.0 (README.md:173)
 
 
 ## Contexts

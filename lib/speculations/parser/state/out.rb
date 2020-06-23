@@ -18,6 +18,9 @@ module Speculations
           when State.include_match(line)
             node = node.add_include(lnb: lnb)
             [:inc, node]
+          when name = State.potential_name(line)
+            node.set_name(name[1])
+            [:out, node]
           else
             [:out, node]
           end

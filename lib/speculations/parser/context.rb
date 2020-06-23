@@ -3,7 +3,7 @@ class Speculations::Parser::Context
   require_relative './context/example'
   require_relative './context/setup'
 
-  attr_reader :filename, :level, :lnb, :name, :orig_filename, :parent, :setup
+  attr_reader :filename, :level, :lnb, :name, :orig_filename, :parent, :potential_name, :setup
 
   def add_child(name:, lnb:)
     raise "Illegal nesting" if parent
@@ -12,7 +12,8 @@ class Speculations::Parser::Context
   end
 
   def add_example(lnb:, line:)
-    examples << Example.new(lnb: lnb, parent: self, line: line)
+    examples << Example.new(lnb: lnb, parent: self, line: line, name: potential_name)
+    @potential_name = nil
     examples.last
   end
 
@@ -36,6 +37,10 @@ class Speculations::Parser::Context
   def map_lines(*lines, indent: 0)
     prefix = "  " * (level + indent)
     lines.flatten.map{ |line| "#{prefix}#{line.strip}" }.join("\n")
+  end
+
+  def set_name(potential_name)
+    @potential_name = potential_name
   end
 
   def set_setup(lnb:)
