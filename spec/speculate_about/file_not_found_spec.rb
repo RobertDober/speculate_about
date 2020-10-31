@@ -1,16 +1,16 @@
-RSpec.describe "this file does not exist, surely!!" do
+description = "this file does not exist, surely!!"
+RSpec.describe description do
 
   raised = false
-  
+
   begin
     speculate_about description
   rescue ArgumentError => ae
-    raised =
-      ae.message == "file \"this file does not exist, surely!!\" not found"
+    raised = ae.message
   end
 
   it "has been raised" do
-    expect(raised).to be_truthy
+    expect(raised).to eq("no files found for pattern #{description}")
   end
 
 end

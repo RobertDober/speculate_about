@@ -4,9 +4,14 @@
 [![Test Coverage](https://codeclimate.com/github/RobertDober/speculate_about/badges/coverage.svg)](https://codeclimate.com/github/RobertDober/speculate_about)
 [![Gem Version](https://badge.fury.io/rb/speculate_about.svg)](http://badge.fury.io/rb/speculate_about)
 
-# Speculate
+# Speculate About
 
-Extract RSpec example groups from Markdown
+A Literate Programming TDD/BDD intented as a [QED](https://github.com/rubyworks/qed/) replacement
+
+Like [QED](https://github.com/rubyworks/qed/) Markdown files are used to present the user with
+readable, verified documentation, however instead of depending on [ae]https://rubygems.org/gems/ae/) as
+a testing framework _Speculate About_ documentation is executed in [RSpec](https://rspec.info/)  
+
 
 ## Installation
 
@@ -25,7 +30,7 @@ Extract RSpec example groups from Markdown
 ## Introduction
 
 Speculate allows to extract `RSpec` contexts, examples, `lets` and other macros, as well as `before`
-blocks from a text file.
+blocks from any text file.
 
 As a matter of fact this file is used to specify behavior of its own library simply by means of the following
 code to be found in [an RSpec spec](spec/speculate_about/readme_spec.rb):
@@ -295,8 +300,18 @@ Finished in 0.00038 seconds (files took 0.13756 seconds to load)
 
 ## File Search Paths
 
-`speculate_about` will look for its argument first in the current dir `.` and then in the spec dir `spec`. If
-no corresponding file is found it raises an `ArgumentError`.
+`speculate_about` will look for its argument first in the current dir `.` and then in the spec dir `spec`.
+File pattern expension is done with `Dir.glob`. 
+If no corresponding files are found it raises an `ArgumentError`.
+
+E.g.
+
+```ruby
+  speculate_about "../fixtures/*.md"
+```
+
+as shown in [this spec](spec/speculate_about/speculate_about_spec.rb)  
+
 ## LICENSE
 
 Copyright 2020 Robert Dober robert.dober@gmail.com

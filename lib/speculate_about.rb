@@ -4,9 +4,12 @@ require 'speculations/parser'
 
 module SpeculateAbout
   def speculate_about file
-    path = _find_file(file, File.dirname( caller.first ))
-    code = _compile path, file
-    ENV["SPECULATE_ABOUT_DEBUG"] ? puts(code) : instance_eval(code)
+    paths = _find_files(file, File.dirname( caller.first ))
+    raise ArgumentError, "no files found for pattern #{file}" if paths.empty?
+    paths.each do |path|
+      code = _compile path, file
+      ENV["SPECULATE_ABOUT_DEBUG"] ? puts(code) : instance_eval(code)
+    end
   end
 
 
@@ -16,11 +19,11 @@ module SpeculateAbout
     ast  = Speculations::Parser.new.parse_from_file(path, file)
     ast.to_code
   end
-  def _find_file file, local_path
-    return file if File.readable? file
-    local_file = File.join(local_path, file)
-    return local_file if File.readable? local_file
-    raise ArgumentError, "file #{file.inspect} not found"
+  def _find_files file, local_path
+    [Dir.pwd, local_path]
+      .flat_map do |dir|
+        Dir.glob(File.join(dir, file))
+    end
   end
 end
 
