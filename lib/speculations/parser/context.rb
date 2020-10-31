@@ -74,8 +74,12 @@ class Speculations::Parser::Context
   end
 
   def _init_from_parent filename, orig_filename, parent
-    @filename = parent ? parent.filename : filename
+    _set_filename filename, orig_filename, parent
     @orig_filename = parent ? parent.orig_filename : orig_filename
+  end
+
+  def _set_filename filename, orig_filename, parent
+    @filename = parent ? parent.filename : filename
     raise ArgumentError, "no filename given in root context" unless @filename
   end
 
