@@ -1,7 +1,8 @@
+require_relative "lib/speculations/version.rb"
 Gem::Specification.new do |s|
   s.name        = 'speculate_about'
-  s.version     = '0.2.1'
-  s.date        = '2020-06-23'
+  s.version     = SpeculateAbout::VERSION
+  s.date        = Time.new.strftime('%Y-%m-%d')
   s.summary     = 'Extract RSpecs from Markdown'
   s.description = 'Allows Markdown or other text files to be used as literal specs, à la Elixr doctest, but from any file.'
   s.authors     = ['Robert Dober']

@@ -8,7 +8,7 @@ module SpeculateAbout
     raise ArgumentError, "no files found for pattern #{file}" if paths.empty?
     paths.each do |path|
       code = _compile path, file
-      ENV["SPECULATE_ABOUT_DEBUG"] ? puts(code) : instance_eval(code)
+      ENV["SPECULATE_ABOUT_DEBUG"] ? _show(code, path) : instance_eval(code, path)
     end
   end
 
@@ -19,11 +19,20 @@ module SpeculateAbout
     ast  = Speculations::Parser.new.parse_from_file(path, file)
     ast.to_code
   end
+  def _show(code, path)
+     message = "Generated code for #{path}"
+     _underline(message)
+     puts code
+  end
   def _find_files file, local_path
     [Dir.pwd, local_path]
       .flat_map do |dir|
         Dir.glob(File.join(dir, file))
     end
+  end
+  def _underline(message, ul: "=")
+    puts message
+    puts message.gsub(/./, ul)
   end
 end
 
