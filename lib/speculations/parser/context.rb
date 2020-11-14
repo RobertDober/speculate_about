@@ -3,11 +3,11 @@ class Speculations::Parser::Context
   require_relative './context/example'
   require_relative './context/setup'
 
-  attr_reader :filename, :level, :lnb, :name, :orig_filename, :parent, :potential_name, :setup
+  attr_reader :alternate_syntax, :filename, :level, :lnb, :name, :orig_filename, :parent, :potential_name, :setup
 
   def add_child(name:, lnb:)
     raise "Illegal nesting" if parent
-    children << self.class.new(name: name, lnb: lnb, parent: self)
+    children << self.class.new(alternate_syntax: alternate_syntax, name: name, lnb: lnb, parent: self)
     children.last
   end
 
@@ -60,8 +60,9 @@ class Speculations::Parser::Context
   
   private
 
-  def initialize(lnb:, name:, filename: nil, orig_filename: nil, parent: nil)
+  def initialize(alternate_syntax: false, lnb:, name:, filename: nil, orig_filename: nil, parent: nil)
     _init_from_parent filename, orig_filename, parent
+    @alternate_syntax = alternate_syntax
     @level         = parent ? parent.level.succ : 1
     @lnb           = lnb
     @setup         = nil

@@ -3,11 +3,11 @@ require 'rspec'
 require 'speculations/parser'
 
 module SpeculateAbout
-  def speculate_about file
+  def speculate_about file, alternate_syntax: false
     paths = _find_files(file, File.dirname( caller.first ))
     raise ArgumentError, "no files found for pattern #{file}" if paths.empty?
     paths.each do |path|
-      code = _compile path, _readable(path) 
+      code = _compile path, _readable(path), alternate_syntax: alternate_syntax 
       ENV["SPECULATE_ABOUT_DEBUG"] ? _show(code, path) : instance_eval(code, path)
     end
   end
@@ -15,8 +15,8 @@ module SpeculateAbout
 
   private
 
-  def _compile path, file
-    ast  = Speculations::Parser.new.parse_from_file(path, file)
+  def _compile path, file, alternate_syntax: false
+    ast  = Speculations::Parser.new.parse_from_file(path, file, alternate_syntax: alternate_syntax)
     ast.to_code
   end
   def _readable(path)

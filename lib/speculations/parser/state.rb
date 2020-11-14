@@ -9,7 +9,9 @@ module Speculations::Parser::State extend self
   EOBLOCK_RGX = %r[\A\s{0,3}```\s*\z]
   EXAMPLE_RGX = %r[\A\s{0,3}```.*\s:example]
   INCLUDE_RGX = %r[\A\s{0,3}```.*\s:include]
-  NAME_RGX    = %r[\A\s{0,3}Example:\s+(.*)]
+  NAME_RGX    = %r[\A\s{0,3}Example:?\s+(.*)]i
+  RUBY_RGX    = %r[\A\s{0,3}```ruby]
+  WS_RGX      = %r[\A\s*\z]
 
   def before_match line
     BEFORE_RGX =~ line
@@ -35,5 +37,13 @@ module Speculations::Parser::State extend self
 
   def potential_name line
     NAME_RGX.match(line)
+  end
+
+  def ruby_match line
+    RUBY_RGX =~ line
+  end
+
+  def ws_match line
+    WS_RGX =~ line
   end
 end
