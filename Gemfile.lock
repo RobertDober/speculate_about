@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    speculate_about (0.2.2)
+    speculate_about (0.2.3)
       rspec (~> 3.9)
 
 GEM
