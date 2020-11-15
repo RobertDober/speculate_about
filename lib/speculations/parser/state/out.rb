@@ -18,24 +18,31 @@ module Speculations
           when name = State.context_match(line)
             node = node.parent if node.parent
             new_node = node.add_child(name: name, lnb: lnb)
-            new_node.set_name(nil)
-            [:out, new_node]
+            [:out, new_node.reset_context]
           when State.ws_match(line)
             [:out, node]
           when name = State.potential_name(line)
             node.set_name(name[1])
+            node.set_given(false)
             [:out, node]
+          when name = State.then_match(line)
+            node.set_name(name[1])
+            node.set_given(false)
+            [:out, node]
+          when State.given_match(line)
+            [:out, node.set_given(true)]
           when State.ruby_match(line)
             if node.potential_name
               node = node.add_example(lnb: lnb, line: line)
               [:exa, node]
-            else
+            elsif node.given?
               node = node.add_include(lnb: lnb)
               [:inc, node]
+            else
+              [:out, node]
             end
           else
-            node.set_name(nil)
-            [:out, node]
+            [:out, node.reset_context]
           end
         end
 

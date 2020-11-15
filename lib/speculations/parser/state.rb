@@ -8,9 +8,11 @@ module Speculations::Parser::State extend self
   CONTEXT_RGX = %r[\A\s{0,3}\#{1,7}\s+Context\s+(.*)]
   EOBLOCK_RGX = %r[\A\s{0,3}```\s*\z]
   EXAMPLE_RGX = %r[\A\s{0,3}```.*\s:example]
+  GIVEN_RGX   = %r[\A\s{0,3}(?:Given|When)\b]
   INCLUDE_RGX = %r[\A\s{0,3}```.*\s:include]
   NAME_RGX    = %r[\A\s{0,3}Example:?\s+(.*)]i
   RUBY_RGX    = %r[\A\s{0,3}```ruby]
+  THEN_RGX    = %r[\A\s{0,3}Then\s+(.*)]
   WS_RGX      = %r[\A\s*\z]
 
   def before_match line
@@ -30,6 +32,10 @@ module Speculations::Parser::State extend self
   def example_match line
     EXAMPLE_RGX =~ line
   end
+  
+  def given_match line
+    GIVEN_RGX =~ line
+  end
 
   def include_match line
     INCLUDE_RGX =~ line
@@ -41,6 +47,10 @@ module Speculations::Parser::State extend self
 
   def ruby_match line
     RUBY_RGX =~ line
+  end
+
+  def then_match line
+    THEN_RGX.match(line)
   end
 
   def ws_match line
