@@ -13,12 +13,13 @@ class Speculations::Parser::Context
 
   def add_example(lnb:, line:)
     examples << Example.new(lnb: lnb, parent: self, line: line, name: potential_name)
-    @potential_name = nil
+    reset_context
     examples.last
   end
 
   def add_include(lnb:)
     includes << Include.new(lnb: lnb, parent: self)
+    @given = false
     includes.last
   end
 
@@ -30,6 +31,10 @@ class Speculations::Parser::Context
      @__examples__ ||= []
   end
 
+  def given?
+    @given
+  end
+
   def includes
      @__includes__ ||= []
   end
@@ -39,8 +44,20 @@ class Speculations::Parser::Context
     lines.flatten.map{ |line| "#{prefix}#{line.strip}" }.join("\n")
   end
 
+  def reset_context
+    @potential_name = nil
+    @given = false
+    self
+  end
+
+  def set_given given
+    @given = given
+    self
+  end
+
   def set_name(potential_name)
     @potential_name = potential_name
+    self
   end
 
   def set_setup(lnb:)
@@ -63,6 +80,7 @@ class Speculations::Parser::Context
   def initialize(alternate_syntax: false, lnb:, name:, filename: nil, orig_filename: nil, parent: nil)
     _init_from_parent filename, orig_filename, parent
     @alternate_syntax = alternate_syntax
+    @given         = false
     @level         = parent ? parent.level.succ : 1
     @lnb           = lnb
     @setup         = nil
