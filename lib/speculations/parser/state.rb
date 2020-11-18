@@ -12,7 +12,7 @@ module Speculations::Parser::State extend self
   INCLUDE_RGX = %r[\A\s{0,3}```.*\s:include]
   NAME_RGX    = %r[\A\s{0,3}Example:?\s+(.*)]i
   RUBY_RGX    = %r[\A\s{0,3}```ruby]
-  THEN_RGX    = %r[\A\s{0,3}Then\s+(.*)]
+  THEN_RGX    = %r[\A\s{0,3}(?:Then|But|And)\s+(.*)]
   WS_RGX      = %r[\A\s*\z]
 
   def before_match line
