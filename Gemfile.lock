@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    speculate_about (0.4.1)
+    speculate_about (0.4.2)
       rspec (~> 3.9)
 
 GEM
@@ -45,4 +45,4 @@ DEPENDENCIES
   speculate_about!
 
 BUNDLED WITH
-   2.1.2
+   2.1.4

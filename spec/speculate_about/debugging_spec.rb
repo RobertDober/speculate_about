@@ -7,9 +7,9 @@ RSpec.describe "spec/fixtures/SIMPLE.md" do
 
   it "has output the code correctly" do
     expected_output = <<EOS 
-Generated code for /home/robert/gh/ruby/speculate_about/spec/fixtures/SIMPLE.md
-===============================================================================
-context \"Speculations from /home/robert/gh/ruby/speculate_about/spec/fixtures/SIMPLE.md\" do
+Generated code for #{ENV["HOME"]}/gh/ruby/speculate_about/spec/fixtures/SIMPLE.md
+================================================================================
+context \"Speculations from #{ENV["HOME"]}/gh/ruby/speculate_about/spec/fixtures/SIMPLE.md\" do
   x = 42
 end
 EOS

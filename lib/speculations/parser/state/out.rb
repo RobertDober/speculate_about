@@ -30,6 +30,7 @@ module Speculations
             node.set_given(false)
             [:out, node]
           when State.given_match(line)
+            node.set_name(nil)
             [:out, node.set_given(true)]
           when State.ruby_match(line)
             if node.potential_name
