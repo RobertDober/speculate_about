@@ -1,3 +1,7 @@
+# v0.4.2 2020-11-20
+
+Fixed a bug when Given was preceeded by (Then/And/But) in alternate_syntax
+
 # v0.4.1 2020-11-18
 
 Alternate syntax now support the following triggers
