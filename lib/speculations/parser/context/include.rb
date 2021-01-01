@@ -12,7 +12,7 @@ class Speculations::Parser::Context::Include
   end
 
   def to_code
-    parent.map_lines(lines)
+    parent.map_lines("# #{parent.filename}:#{lnb}", lines)
   end
 
   private

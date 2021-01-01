@@ -1,7 +1,7 @@
 module Support
   module Fixtures
     def fixtures_path(*segments)
-      @__fixtures_path__ ||= File.join(RSPEC_ROOT, 'fixtures', segments)
+      File.join('spec', 'fixtures', segments)
     end
   end
 end

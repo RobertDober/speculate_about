@@ -1,109 +1,129 @@
-class Speculations::Parser::Context
-  require_relative './context/include'
-  require_relative './context/example'
-  require_relative './context/setup'
+module Speculations
+  class Parser
+    class Context
+      require_relative './context/include'
+      require_relative './context/example'
 
-  attr_reader :alternate_syntax, :filename, :level, :lnb, :name, :orig_filename, :parent, :potential_name, :setup
+      DISCLAIMER = <<-EOD
+# DO NOT EDIT!!!
+# This file was generated from FILENAME with the speculate_about gem, if you modify this file
+# one of two bad things will happen
+# - your documentation specs are not correct
+# - your modifications will be overwritten by the speculate rake task
+# YOU HAVE BEEN WARNED
+      EOD
 
-  def add_child(name:, lnb:)
-    raise "Illegal nesting" if parent
-    children << self.class.new(alternate_syntax: alternate_syntax, name: name, lnb: lnb, parent: self)
-    children.last
+      attr_reader :filename, :level, :lnb, :title, :parent, :root, :tree_level
+
+      def new_context(title:, lnb:, level: )
+        new_child = self.class.new(title: title, lnb: lnb, parent: self, level: level)
+        _realign_levels(new_child)
+      end
+
+      def new_example(lnb:, title:)
+        examples << Example.new(lnb: lnb, parent: self, title: title)
+        examples.last
+      end
+
+      def new_include(lnb:)
+        includes << Include.new(lnb: lnb, parent: self)
+        includes.last
+      end
+
+      def parent_of_level needed_min_level
+        # I would love to write
+        # self.enum_by(:parent).find{ |ctxt| ctxt.level <= needed_min_level }
+        current = self
+        while current.level > needed_min_level
+          current = current.parent
+        end
+        current
+      end
+
+      def children
+        @__children__ ||= []
+      end
+
+      def examples
+        @__examples__ ||= []
+      end
+
+      def includes
+        @__includes__ ||= []
+      end
+
+      def map_lines(*lines, indent: 0)
+        prefix = "  " * (tree_level + indent).succ
+        lines.flatten.map{ |line| "#{prefix}#{line.strip}" }
+      end
+
+      def to_code
+        [
+          _header,
+          includes.map(&:to_code),
+          examples.map(&:to_code),
+          children.map(&:to_code),
+          _footer
+        ].flatten.compact
+      end
+
+      def with_new_parent new_parent
+        @parent = new_parent
+        @tree_level += 1
+        self
+      end
+
+
+      private
+
+      def initialize(lnb: 0, title: nil, filename: nil, parent: nil, level: 0)
+        @filename = filename
+        @level    = level
+        @lnb      = lnb
+        @title    = title
+        @parent   = parent
+        if parent
+          _init_from_parent
+        else
+          @root = self
+          @tree_level  = 0
+        end
+      end
+
+      def _header
+        if parent
+          map_lines(%{# #{filename}:#{lnb}}, %{context "#{title}" do}, indent: -1)
+        else
+          _root_header
+        end
+      end
+
+      def _root_header
+        map_lines(DISCLAIMER.gsub("FILENAME", filename.inspect).split("\n"), %{RSpec.describe #{filename.inspect} do}, indent: -1)
+      end
+
+      def _init_from_parent
+        @root = parent.root
+        @filename = parent.filename
+        @tree_level = parent.tree_level.succ
+      end
+
+      def _footer
+        map_lines("end", indent: -1)
+      end
+
+      def _realign_levels new_parent
+        if children.empty? || children.first.level == new_parent.level
+          children << new_parent
+          return new_parent
+        end
+        children.each do |child|
+          new_parent.children << child.with_new_parent(new_parent)
+        end
+        @__children__ = [new_parent]
+        new_parent
+      end
+
+    end
   end
-
-  def add_example(lnb:, line:)
-    examples << Example.new(lnb: lnb, parent: self, line: line, name: potential_name)
-    reset_context
-    examples.last
-  end
-
-  def add_include(lnb:)
-    includes << Include.new(lnb: lnb, parent: self)
-    @given = false
-    includes.last
-  end
-
-  def children
-     @__children__ ||= []
-  end
-
-  def examples
-     @__examples__ ||= []
-  end
-
-  def given?
-    @given
-  end
-
-  def includes
-     @__includes__ ||= []
-  end
-
-  def map_lines(*lines, indent: 0)
-    prefix = "  " * (level + indent)
-    lines.flatten.map{ |line| "#{prefix}#{line.strip}" }.join("\n")
-  end
-
-  def reset_context
-    @potential_name = nil
-    @given = false
-    self
-  end
-
-  def set_given given
-    @given = given
-    self
-  end
-
-  def set_name(potential_name)
-    @potential_name = potential_name
-    self
-  end
-
-  def set_setup(lnb:)
-    @setup = Setup.new(lnb: lnb, parent: self)
-  end
-
-  def to_code
-    [
-      _header,
-      includes.map(&:to_code),
-      setup&.to_code,
-      examples.map(&:to_code),
-      children.map(&:to_code),
-      _footer
-    ].flatten.compact.join("\n")
-  end
-  
-  private
-
-  def initialize(alternate_syntax: false, lnb:, name:, filename: nil, orig_filename: nil, parent: nil)
-    _init_from_parent filename, orig_filename, parent
-    @alternate_syntax = alternate_syntax
-    @given         = false
-    @level         = parent ? parent.level.succ : 1
-    @lnb           = lnb
-    @setup         = nil
-    @name          = name
-    @parent        = parent
-  end
-
-  def _header
-    map_lines(%{context "#{name}" do}, indent: -1)
-  end
-
-  def _init_from_parent filename, orig_filename, parent
-    _set_filename filename, orig_filename, parent
-    @orig_filename = parent ? parent.orig_filename : orig_filename
-  end
-
-  def _set_filename filename, orig_filename, parent
-    @filename = parent ? parent.filename : filename
-    raise ArgumentError, "no filename given in root context" unless @filename
-  end
-
-  def _footer
-    map_lines("end", indent: -1)
-  end
-
 end

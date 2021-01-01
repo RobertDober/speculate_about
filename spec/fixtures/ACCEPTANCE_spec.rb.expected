@@ -1,0 +1,23 @@
+# DO NOT EDIT!!!
+# This file was generated from "spec/fixtures/ACCEPTANCE.md" with the speculate_about gem, if you modify this file
+# one of two bad things will happen
+# - your documentation specs are not correct
+# - your modifications will be overwritten by the speculate rake task
+# YOU HAVE BEEN WARNED
+RSpec.describe "spec/fixtures/ACCEPTANCE.md" do
+  # spec/fixtures/ACCEPTANCE.md:27
+  context "Level 2" do
+    it "therefore we have (spec/fixtures/ACCEPTANCE.md:35)" do
+      a nice example # We do not check the code, RSpec will do that for us
+    end
+    # spec/fixtures/ACCEPTANCE.md:11
+    context "Level 3" do
+      # spec/fixtures/ACCEPTANCE.md:15
+      let(:x){1}
+      before {}
+      it "this shall be (spec/fixtures/ACCEPTANCE.md:23)" do
+        expect( 1 ).to be_zero # Who cares?
+      end
+    end
+  end
+end

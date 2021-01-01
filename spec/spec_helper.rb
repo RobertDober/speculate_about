@@ -16,9 +16,6 @@
 require 'simplecov'
 SimpleCov.start
 
-require 'speculations'
-require 'speculate_about'
-
 RSPEC_ROOT = File.dirname(__FILE__)
 Dir.glob(File.expand_path('support/**/*.rb',RSPEC_ROOT)).each{ |f| require f }
 RSpec.configure do |config|

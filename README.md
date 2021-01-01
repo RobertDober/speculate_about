@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/RobertDober/speculate_about.svg?branch=master)](https://travis-ci.org/RobertDober/speculate_about)
 [![Code Climate](https://codeclimate.com/github/RobertDober/speculate_about/badges/gpa.svg)](https://codeclimate.com/github/RobertDober/speculate_about)
 [![Issue Count](https://codeclimate.com/github/RobertDober/speculate_about/badges/issue_count.svg)](https://codeclimate.com/github/RobertDober/speculate_about)
 [![Test Coverage](https://codeclimate.com/github/RobertDober/speculate_about/badges/coverage.svg)](https://codeclimate.com/github/RobertDober/speculate_about)
@@ -10,8 +9,17 @@ A Literate Programming TDD/BDD intented as a [QED](https://github.com/rubyworks/
 
 Like [QED](https://github.com/rubyworks/qed/) Markdown files are used to present the user with
 readable, verified documentation, however instead of depending on [ae]https://rubygems.org/gems/ae/) as
-a testing framework _Speculate About_ documentation is executed in [RSpec](https://rspec.info/)  
+a testing framework _Speculate About_ creates an `RSpec` file for each markdown file.
 
+This has some advantages
+
+  - easy debugging in case of problems inside the Markdown file
+  - reparsing of the Markdown file for a test run is only needed in case the compiled RSpec file is out of date
+  - CI does not even know about 'speculate', in theory it could be removed from the Gemfile and CI would still work
+
+
+The inconvenience is that you need to run a rake task to assure the compiled RSpec files are up to date, and you need to dedicate
+the directory `spec/speculation` to the generated RSpec files.
 
 ## Installation
 
@@ -21,10 +29,10 @@ a testing framework _Speculate About_ documentation is executed in [RSpec](https
     gem "speculate_about"
 ```
 
-### In your specs
+And then
 
-```ruby
-    require 'speculate_about'
+```sh
+    speculate --init
 ```
 
 ## Introduction
@@ -32,285 +40,82 @@ a testing framework _Speculate About_ documentation is executed in [RSpec](https
 Speculate allows to extract `RSpec` contexts, examples, `lets` and other macros, as well as `before`
 blocks from any text file.
 
-As a matter of fact this file is used to specify behavior of its own library simply by means of the following
-code to be found in [an RSpec spec](spec/speculate_about/readme_spec.rb):
 
-```ruby
-  RSpec.describe "README.md" do
+```sh
+  speculate a_relative_path # --> creates spec/speculations#{a_relative_path}_spec.rb
 
-    speculate_about description
-
-  end
+  speculate **/*.md         
 ```
 
 Now what will the code above do?
 
-It will extract code from this file which is annotated and inject it into the `RSpec::ExampleGroup` instance in
-which `speculate_about` has been invoked.
+Given a markdown file `doc/desc.md` contains the following code
 
-And here is how we can generate this code:
+    # Hello
 
-## Examples
+    ## Context An Adder
 
-First of all if we create a code block marked with `ruby :example`, an `RSpec::Example` will be generated.
-Here is such an example (pun intended):
+    Given an adder, like so
+    ```ruby
+      before { @a = 41 }
+      let(:adder) { :succ.to_proc }
+    ```
+    Then we can assume
+    ```ruby
+      expect(adder.(@a)).to eq(42)
+    ```
 
-```ruby :example
-    list = []
-    expect(list).to be_empty
-```
+then the `speculate` binary will create a file `spec/speculations/doc/desc_rspec.rb` with the following content
 
-If you run `rspec spec/speculate_about/readme_spec.rb --format doc`
-the following output will be generated
+     # DO NOT EDIT!!!
+     # This file is generated from "doc/desc.md" with the speculate_about gem, if you modify this file
+     # one of two bad things will happen
+     # - your documentation specs are not correct
+     # - your modifications will be overwritten by the speculate rake task
+     # YOU HAVE BEEN WARNED
+     RSpec.describe "doc/desc.md" do
 
-```
-README.md
-  Speculations from README.md
-    Example from README.md:40
+        # from lines #3...
+        context "An Adder" do
 
-Finished in 0.00259 seconds (files took 0.14353 seconds to load)
-1 example, 0 failures
-```
+           # from lines #7...
+           before { @a = 41 }
+           let(:adder) { :succ.to_proc }
 
+           # from lines #12...
+           it "we can assume" do
+             expect(adder.(@a)).to eq(42)
+           end
+        end
+     end
 
-We can see from the above that `speculate_about` creates a _root_ context around all code it injects.
+### How to write Markdown files containing Speculations
 
-## Macros
+Actually it is very simple, there are only three concepts
 
-If we want to have code that is executed at the `ExampleGroup` level we can create a code block and annotate it with
-`ruby :include` so the following two code blocks will also create a passing example:
+#### Contexts
 
-```ruby :include
-    let(:answer){ 42 }
-```
+we can create contexts with header lines that start with `Context` or  `Context:` they get nested according to the level of the headers
 
-```ruby :example
-    expect(answer - 42).to be_zero
-```
+#### Inline Code
 
-If we now run `rspec spec/speculate_about/readme_spec.rb --format doc --example md:69` or all specs of course we can see
-that that worked too.
+this is code which is generated inside the context or global `RSpec.describe` code (as in lines 7 onward in the example above) this code
+is triggered by a normal markdown line starting with one of the following words:
+- `Given` 
+- `When` 
+which needs to be immediately followed by a ` ~~~ruby` code block (backticks are fine too of course)
 
-Of course, if you think that in your context the spec should be explicitly included into your document you still can do
-the following (with ` ```ruby :include `)
+#### Examples
 
-```ruby :include
-  
-  context "Lemmings" do
-    let(:number) { 42 }
-    before do
-      @lemmings = [*1..number]
-    end
-    it "they can fall down" do
-      move
-      expect(@lemmings).to eq([*1..41])
-    end
+this is code that is wrapped by an `it ...`  block (as in lines 12 onward in the example above)
+it is triggered by a normal markdown text line starting with one of the following words:
 
-    def move
-      @lemmings.pop
-    end
-
-  end
-```
-
-This gives a nicer output
-
-```
-    
-README.md
-  Speculations from README.md
-    Example from README.md:40
-    Example from README.md:69
-    Lemmings
-      they can fall down
-
-Finished in 0.00327 seconds (files took 0.13579 seconds to load)
-3 examples, 0 failures
-
-```
-
-but that is not the idea of this tool, we want just to assure that our documentation is correct.
-
-In the spirit of this tool one would use a ` ```ruby :before`  block together with the `:include` and `:example` block as follows:
-
-```ruby :before
-  @lemmings = [*1..number]
-    
-```
-
-```ruby :include
-   let(:number){ 42 } 
-
-   def move
-     @lemmings.pop
-   end
-```
-
-```ruby :example
-   move 
-   expect(@lemmings).to eq([*1..41])
-```
-
-#### Context Named Examples
-
-Furthermore one can name examples by 2 means.
-
-Either by anotating the example triggering code block like this: ` ```ruby :example Some long name until the end of the line `
-
-Or by starting a line after your last example and before your example with `Example: Name of the next example`
-
-Than the output will still contain the filename and line number but preceeded by the example's name
-
-#### Two examples for that
-
-Firstly `named examples are new in v0.1.1`:
-
-
-```ruby :example named examples are new in v0.1.1
-  expect(1).to eq(1)
-```
-
-And secondly `name from "Example: ..." line is new in v0.2.0`
-
-Example: Names from outside are new in v0.2.0
-
-```ruby :example
-  expect(2).to eq(2)
-```
-
-Which now produces the following output
-
-
-      Named Examples
-        named examples are new in v0.1.1 (README.md:165)
-        Names from outside are new in v0.2.0 (README.md:173)
-
-
-## Contexts
-
-And last but not least we can create contexts (just one level though, a limitation which we consider rather a feature)
-
-Any headline (that is a line starting with one up to seven `#`) wich starts with the word context will create a new context.
-It will also close an open context unless the open context is the root context.
-
-Let us watch that in production:
-
-### Context This is sooo coooool
-
-First a let inside a ` ```ruby :include` block:
-```ruby :include
-  let(:temperature){ 0 }
-  let(:just_right){ 42 }
-```
-
-Then we set up some heating, inside a ` ```ruby :before` block:
-
-```ruby :before
-  @current = temperature
-
-  def heat
-    @current += 1
-  end
-```
-
-And now some philosohical observations, inside a ` ```ruby :example` block:
-
-```ruby :example
-  42.times{ heat }
-  expect(@current).to eq(just_right)
-```
-
-After that the result will read like
-
-```
-README.md
-  Speculations from README.md
-    ...
-    This is sooo coooool
-      Example from README.md:166
-```
-
-
-## Debugging
-
-By setting the environment variable `SPECULATE_ABOUT_DEBUG` the tool will print the code that will be instance evalled on
-the `RSpec::ExampleGroup` to standard out instead of runnin the specs
-
-```
-SPECULATE_ABOUT_DEBUG= rspec spec/speculate_about/readme_spec.rb --format doc                                                                          [20:38:56]
-context "Speculations from README.md" do
-  let(:answer){ 42 }
-  
-  context "Lemmings" do
-  let(:number) { 42 }
-  before do
-  @lemmings = [*1..number]
-  end
-  it "they can fall down" do
-  move
-  expect(@lemmings).to eq([*1..41])
-  end
-  
-  def move
-  @lemmings.pop
-  end
-  
-  end
-  let(:number){ 42 }
-  
-  def move
-  @lemmings.pop
-  end
-  before do
-    @lemmings = [*1..number]
-    
-  end
-  it "Example from README.md:40" do
-    list = []
-    expect(list).to be_empty
-  end
-  it "Example from README.md:69" do
-    expect(answer - 42).to be_zero
-  end
-  it "Example from README.md:131" do
-    move
-    expect(@lemmings).to eq([*1..41])
-  end
-  context "This is sooo coooool" do
-    let(:temperature){ 0 }
-    let(:just_right){ 42 }
-    before do
-      @current = temperature
-      
-      def heat
-      @current += 1
-      end
-    end
-    it "Example from README.md:166" do
-      42.times{ heat }
-      expect(@current).to eq(just_right)
-    end
-  end
-end
-No examples found.
-
-Finished in 0.00038 seconds (files took 0.13756 seconds to load)
-0 examples, 0 failures
-```
-
-## File Search Paths
-
-`speculate_about` will look for its argument first in the current dir `.` and then in the spec dir `spec`.
-File pattern expension is done with `Dir.glob`. 
-If no corresponding files are found it raises an `ArgumentError`.
-
-E.g.
-
-```ruby
-  speculate_about "../fixtures/*.md"
-```
-
-as shown in [this spec](spec/speculate_about/speculate_about_spec.rb)  
+- `Then` 
+- `And` 
+- `But` 
+- `Example` 
+- `Also` 
+which, needs to be immediately followed by a ` ~~~ruby` code block (backticks are fine too of course) again, 
 
 ## LICENSE
 

@@ -1,3 +1,14 @@
+# v0.5.0 2021-01-01
+
+Create binary `speculate`
+
+Make triggers pluggable
+
+Make alternate syntax the **only** syntax
+
+Recursive Contexts
+
+
 # v0.4.2 2020-11-20
 
 Fixed a bug when Given was preceeded by (Then/And/But) in alternate_syntax
