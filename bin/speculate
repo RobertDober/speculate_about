@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require_relative '../lib/speculations/cli'
+
+Speculations::CLI.run(ARGV)

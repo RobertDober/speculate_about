@@ -1,8 +1,11 @@
+# v0.5.1 2021-??-??
+
+Make triggers pluggable (translations and syntax customisations)
+
 # v0.5.0 2021-01-01
 
 Create binary `speculate`
 
-Make triggers pluggable
 
 Make alternate syntax the **only** syntax
 
@@ -11,7 +14,7 @@ Recursive Contexts
 
 # v0.4.2 2020-11-20
 
-Fixed a bug when Given was preceeded by (Then/And/But) in alternate_syntax
+Fixed a bug when Given was preceded by (Then/And/But) in alternate_syntax
 
 # v0.4.1 2020-11-18
 

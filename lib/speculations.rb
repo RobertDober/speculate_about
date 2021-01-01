@@ -1,14 +1,23 @@
 require 'fileutils'
-require 'speculations/parser'
+require_relative 'speculations/parser'
 module Speculations extend self
 
-  def compile(file)
-    raise ArgumentError, "#{file} not found" unless File.readable? file
-    ast  = Speculations::Parser.new.parse_from_file(file)
-    File.write(_speculation_path(file), ast.to_code)
+  def compile(infile, outfile=nil)
+    raise ArgumentError, "#{infile} not found" unless File.readable? infile
+    outfile ||= _speculation_path(infile)
+    if _out_of_date?(outfile, infile)
+      ast  = Speculations::Parser.new.parse_from_file(infile)
+      File.write(outfile, ast.to_code.join("\n"))
+    end
+    outfile
   end
 
   private
+
+  def _out_of_date?(outf, inf)
+    return true unless File.exists? outf
+    return File.lstat(outf).mtime <= File.lstat(inf).mtime
+  end
 
   def _speculation_path(file)
     dir = File.dirname(file)
