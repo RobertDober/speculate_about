@@ -4,15 +4,6 @@ module Speculations
       require_relative './context/include'
       require_relative './context/example'
 
-      DISCLAIMER = <<-EOD
-# DO NOT EDIT!!!
-# This file was generated from FILENAME with the speculate_about gem, if you modify this file
-# one of two bad things will happen
-# - your documentation specs are not correct
-# - your modifications will be overwritten by the speculate rake task
-# YOU HAVE BEEN WARNED
-      EOD
-
       attr_reader :filename, :level, :lnb, :title, :parent, :root, :tree_level
 
       def new_context(title:, lnb:, level: )
@@ -94,12 +85,8 @@ module Speculations
         if parent
           map_lines(%{# #{filename}:#{lnb}}, %{context "#{title}" do}, indent: -1)
         else
-          _root_header
+          []
         end
-      end
-
-      def _root_header
-        map_lines(DISCLAIMER.gsub("FILENAME", filename.inspect).split("\n"), %{RSpec.describe #{filename.inspect} do}, indent: -1)
       end
 
       def _init_from_parent
@@ -109,7 +96,11 @@ module Speculations
       end
 
       def _footer
-        map_lines("end", indent: -1)
+        if parent
+          map_lines("end", indent: -1)
+        else
+          []
+        end
       end
 
       def _realign_levels new_parent
