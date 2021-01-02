@@ -1,6 +1,10 @@
-# v0.5.1 2021-??-??
+# v0.5.2 2021-??-??
 
 Make triggers pluggable (translations and syntax customisations)
+
+# v0.5.1 2021-01-02
+
+Bring `speculate_about` back again
 
 # v0.5.0 2021-01-01
 
