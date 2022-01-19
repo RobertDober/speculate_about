@@ -8,7 +8,7 @@
 A Literate Programming TDD/BDD intented as a [QED](https://github.com/rubyworks/qed/) replacement
 
 Like [QED](https://github.com/rubyworks/qed/) Markdown files are used to present the user with
-readable, verified documentation, however instead of depending on [ae]https://rubygems.org/gems/ae/) as
+readable, verified documentation, however instead of depending on [ae](https://rubygems.org/gems/ae/) as
 a testing framework _Speculate About_ creates an `RSpec` file for each markdown file.
 
 This has some advantages
