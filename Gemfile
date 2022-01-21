@@ -6,7 +6,11 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
 gemspec
 
-group :test do
-    gem "simplecov"
-    gem "pry-byebug"
+group :development, :test do
+  gem "debug"
+  gem "pry-byebug"
+  gem "simplecov", require: false
+  gem 'simplecov-lcov', '~> 0.8.0'
+  gem "rspec"
 end
+#  SPDX-License-Identifier: Apache-2.0

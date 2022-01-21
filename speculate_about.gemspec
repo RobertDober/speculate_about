@@ -14,10 +14,7 @@ Gem::Specification.new do |s|
     'https://github.com/robertdober/speculate'
   s.license       = 'Apache-2.0'
 
-  s.required_ruby_version = '>= 2.7.0'
-
-  s.add_dependency 'rake', '~> 13.0'
-  s.add_dependency 'rspec', '~> 3.10'
-
+  s.required_ruby_version = '>= 3.1.0'
 end
 
+#  SPDX-License-Identifier: Apache-2.0

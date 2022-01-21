@@ -1,6 +1,15 @@
-# v0.5.3 2021-??-??
+
+# v0.6.1 2022-??-??
 
 Make triggers pluggable (translations and syntax customisations)
+
+# v0.6.0 2022-01-21
+
+Remove support for Ruby < 3.1
+
+Adapt gem to Ruby 3.1 (no more warnings \o/)
+
+Add suport for Github Actions
 
 # v0.5.2 2021-01-02
 

@@ -1,9 +1,12 @@
-[![Code Climate](https://codeclimate.com/github/RobertDober/speculate_about/badges/gpa.svg)](https://codeclimate.com/github/RobertDober/speculate_about)
 [![Issue Count](https://codeclimate.com/github/RobertDober/speculate_about/badges/issue_count.svg)](https://codeclimate.com/github/RobertDober/speculate_about)
-[![Test Coverage](https://codeclimate.com/github/RobertDober/speculate_about/badges/coverage.svg)](https://codeclimate.com/github/RobertDober/speculate_about)
 [![Gem Version](https://badge.fury.io/rb/speculate_about.svg)](http://badge.fury.io/rb/speculate_about)
+[![CI](https://github.com/robertdober/speculate_about/workflows/CI/badge.svg)](https://github.com/robertdober/speculate_about/actions)
+[![Coverage Status](https://coveralls.io/repos/github/RobertDober/speculate_about/badge.svg?branch=master)](https://coveralls.io/github/RobertDober/speculate_about?branch=master)
 
 # Speculate About
+
+
+## What is it
 
 A Literate Programming TDD/BDD intented as a [QED](https://github.com/rubyworks/qed/) replacement
 
@@ -15,24 +18,26 @@ This has some advantages
 
   - easy debugging in case of problems inside the Markdown file
   - reparsing of the Markdown file for a test run is only needed in case the compiled RSpec file is out of date
-  - CI does not even know about 'speculate', in theory it could be removed from the Gemfile and CI would still work
+  - CI does not even know about `speculate_about`, in theory it could be removed from the Gemfile and CI would still work
 
 
-The inconvenience is that you need to run a rake task to assure the compiled RSpec files are up to date, and you need to dedicate
+The inconvenience is that you need to run `bundle exec speculate` to assure the compiled RSpec files are up to date, and you need to dedicate
 the directory `spec/speculation` to the generated RSpec files.
+
+For me it is a little prize to pay, and for you?
 
 ## Installation
 
-### Bundler
-
-```ruby
-    gem "speculate_about"
+```sh
+gem install speculate_about
 ```
 
-And then
+With bundler
 
-```sh
-    speculate --init
+```ruby
+group :development, :test do
+  gem 'speculate_about'
+end
 ```
 
 ## Introduction
