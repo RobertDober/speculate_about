@@ -6,7 +6,7 @@ module Speculations::Parser::State::Triggers
   GIVEN_RGX   = %r[\A\s{0,3}(?:Given|When)\b]
   EXAMPLE_RGX = %r[\A\s{0,3}Example:?\s+(<?title>.*)]
   RUBY_RGX    = %r[\A\s{0,3}```ruby]
-  THEN_RGX    = %r[\A\s{0,3}(?:Then|But|And|Also)\b\s*(?<title>.*)]
+  THEN_RGX    = %r[\A\s{0,3}(?:Then|But|And|Also|Or)\b\s*(?<title>.*)]
 
   def blank_line line
     BLANK_RGX.match(line)

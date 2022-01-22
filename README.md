@@ -49,7 +49,7 @@ blocks from any text file.
 ```sh
   speculate a_relative_path # --> creates spec/speculations#{a_relative_path}_spec.rb
 
-  speculate **/*.md         
+  speculate **/*.md
 ```
 
 Now what will the code above do?
@@ -106,8 +106,8 @@ we can create contexts with header lines that start with `Context` or  `Context:
 
 this is code which is generated inside the context or global `RSpec.describe` code (as in lines 7 onward in the example above) this code
 is triggered by a normal markdown line starting with one of the following words:
-- `Given` 
-- `When` 
+- `Given`
+- `When`
 which needs to be immediately followed by a ` ~~~ruby` code block (backticks are fine too of course)
 
 #### Examples
@@ -115,15 +115,16 @@ which needs to be immediately followed by a ` ~~~ruby` code block (backticks are
 this is code that is wrapped by an `it ...`  block (as in lines 12 onward in the example above)
 it is triggered by a normal markdown text line starting with one of the following words:
 
-- `Then` 
-- `And` 
-- `But` 
-- `Example` 
-- `Also` 
-which, needs to be immediately followed by a ` ~~~ruby` code block (backticks are fine too of course) again, 
+- `Then`
+- `And`
+- `Or`
+- `But`
+- `Example`
+- `Also`
+which, needs to be immediately followed by a ` ~~~ruby` code block (backticks are fine too of course) again,
 
 ## LICENSE
 
 Copyright 2020 Robert Dober robert.dober@gmail.com
 
-Apache-2.0 [c.f LICENSE](LICENSE)  
+Apache-2.0 [c.f LICENSE](LICENSE)

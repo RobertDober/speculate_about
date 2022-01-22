@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    speculate_about (0.5.3)
+    speculate_about (0.6.0)
 
 GEM
   remote: https://rubygems.org/

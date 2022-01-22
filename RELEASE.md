@@ -1,7 +1,11 @@
 
-# v0.6.1 2022-??-??
+# v0.6.2 2022-??-??
 
 Make triggers pluggable (translations and syntax customisations)
+
+# v0.6.1 2022-01-22
+
+Add `Or` as an example trigger
 
 # v0.6.0 2022-01-21
 
