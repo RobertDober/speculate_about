@@ -6,9 +6,9 @@ module Speculations
         def parse line, _lnb, node, ctxt
           case
           when State.eoblock_match(line)
-            [:out, node.parent]
+            [ctxt, node.parent]
           else
-            [:in, node.add_line(line)]
+            [:in, node.add_line(line), ctxt]
           end
         end
       end

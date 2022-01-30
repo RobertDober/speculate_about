@@ -3,7 +3,7 @@ module Speculations::Parser::State::Triggers
   BLANK_RGX   = %r{\A\s*\z}
   CONTEXT_RGX = %r[\A\s{0,3}(?<level>\#{1,7})\s+Context:?\s+(?<title>.*)]
   EOBLOCK_RGX = %r[\A\s{0,3}```\s*\z]
-  GIVEN_RGX   = %r[\A\s{0,3}(?:Given|When)\b]
+  GIVEN_RGX   = %r[\A\s{0,3}(?:Given|When|And)\b]
   EXAMPLE_RGX = %r[\A\s{0,3}Example:?\s+(<?title>.*)]
   RUBY_RGX    = %r[\A\s{0,3}```ruby]
   THEN_RGX    = %r[\A\s{0,3}(?:Then|But|And|Also|Or)\b\s*(?<title>.*)]
