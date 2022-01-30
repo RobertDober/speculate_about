@@ -1,4 +1,3 @@
-
 require 'speculations/parser'
 RSpec.describe Speculations::Parser do
 

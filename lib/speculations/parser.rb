@@ -8,6 +8,7 @@ module Speculations
       @__parsers__ ||= {
         candidate: State::Candidate,
         in: State::In,
+        includes: State::Includes,
         out: State::Out
       }
     end
@@ -31,7 +32,8 @@ module Speculations
       root = node = Context.new(filename: @filename)
       ctxt = nil
       @input.each_with_index do |line, lnb|
-        @state, node, ctxt = self.class.parsers.fetch(@state).parse(line, lnb.succ, node, ctxt)
+        parser = self.class.parsers.fetch(@state)
+        @state, node, ctxt = parser.parse(line, lnb.succ, node, ctxt)
       end
       root
     end

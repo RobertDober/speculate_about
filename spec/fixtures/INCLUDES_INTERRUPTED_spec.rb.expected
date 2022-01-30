@@ -1,0 +1,11 @@
+  # spec/fixtures/INCLUDES_INTERRUPTED.md:2
+  context "Level 2" do
+    # spec/fixtures/INCLUDES_INTERRUPTED.md:5
+    let(:number) { 42 }
+    # spec/fixtures/INCLUDES_INTERRUPTED.md:9
+    context "Level 3" do
+      it "I have it in the next context (spec/fixtures/INCLUDES_INTERRUPTED.md:12)" do
+        expect(number).to eq(42)
+      end
+    end
+  end

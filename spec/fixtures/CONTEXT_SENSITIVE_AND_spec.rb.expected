@@ -1,0 +1,13 @@
+  # spec/fixtures/CONTEXT_SENSITIVE_AND.md:3
+  context "Level 2" do
+    # spec/fixtures/CONTEXT_SENSITIVE_AND.md:6
+    let(:number) { 42 }
+    # spec/fixtures/CONTEXT_SENSITIVE_AND.md:11
+    let(:another_number) { 1 }
+    it "their product is (spec/fixtures/CONTEXT_SENSITIVE_AND.md:16)" do
+      expect(number * another_number).to eq(42)
+    end
+    it "their difference is (spec/fixtures/CONTEXT_SENSITIVE_AND.md:21)" do
+      expect(number - another_number).to eq(41)
+    end
+  end
