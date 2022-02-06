@@ -42,3 +42,4 @@ module Speculations extend self
     File.join(dest_dir, "#{rspec}_spec.rb")
   end
 end
+#  SPDX-License-Identifier: Apache-2.0

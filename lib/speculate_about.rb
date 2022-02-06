@@ -25,3 +25,4 @@ end
 RSpec.configure do |conf|
   conf.extend SpeculateAbout
 end
+#  SPDX-License-Identifier: Apache-2.0
