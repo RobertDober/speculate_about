@@ -2,6 +2,7 @@
 [![Gem Version](https://badge.fury.io/rb/speculate_about.svg)](http://badge.fury.io/rb/speculate_about)
 [![CI](https://github.com/robertdober/speculate_about/workflows/CI/badge.svg)](https://github.com/robertdober/speculate_about/actions)
 [![Coverage Status](https://coveralls.io/repos/github/RobertDober/speculate_about/badge.svg?branch=master)](https://coveralls.io/github/RobertDober/speculate_about?branch=master)
+[![Gem Downloads](https://img.shields.io/gem/dt/speculate_about.svg)](https://rubygems.org/gems/speculate_about)
 
 # Speculate About
 

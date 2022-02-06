@@ -45,7 +45,7 @@ module Speculations
 
       def map_lines(*lines, indent: 0)
         prefix = "  " * (tree_level + indent).succ
-        lines.flatten.map{ |line| "#{prefix}#{line.strip}" }
+        lines.flatten.map{ |line| "#{prefix}#{line.strip}".rstrip }
       end
 
       def to_code

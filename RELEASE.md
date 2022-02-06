@@ -1,7 +1,16 @@
-
-# v0.6.2 2022-??-??
+# v1.0.2 2022-??-??
 
 Make triggers pluggable (translations and syntax customisations)
+
+
+# v1.0.1 2022-02-06
+
+Fix ws in empty lines
+
+# v1.0.0 2022-
+
+Make `And` trigger setup code or examples depending on its context
+
 
 # v0.6.1 2022-01-22
 

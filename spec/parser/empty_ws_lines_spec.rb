@@ -1,12 +1,12 @@
 require 'speculations/parser'
 RSpec.describe Speculations::Parser do
 
-  let(:fixture){ fixtures_path("CONTEXT_SENSITIVE_AND.md") }
+  let(:fixture){ fixtures_path("EMPTY_WS_LINES.md") }
   let(:parser) { described_class.new }
   let(:ast)    { parser.parse_from_file(fixture) }
 
   context "rendered code" do
-    let(:expected_code) { File.readlines(fixtures_path("CONTEXT_SENSITIVE_AND_spec.rb.expected"), chomp: true) }
+    let(:expected_code) { File.readlines(fixtures_path("EMPTY_WS_LINES_spec.rb.expected"), chomp: true) }
     let(:actual_code) { ast.to_code }
 
     it "has no superflous lines" do
