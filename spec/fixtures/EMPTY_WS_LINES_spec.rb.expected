@@ -1,0 +1,7 @@
+  # spec/fixtures/EMPTY_WS_LINES.md:3
+  context "Level 2" do
+    # spec/fixtures/EMPTY_WS_LINES.md:6
+    let(:one) { 42 }
+
+    let(:two) { 54 }
+  end

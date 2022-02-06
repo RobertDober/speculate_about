@@ -15,7 +15,7 @@ module Speculations extend self
     raise ArgumentError, "#{infile} not found" unless File.readable? infile
     outfile ||= _speculation_path(infile)
     if _out_of_date?(outfile, infile)
-      ast  = Speculations::Parser.new.parse_from_file(infile)
+      ast  = p Speculations::Parser.new.parse_from_file(infile)
       code = _decorated_ast_code ast, infile
       File.write(outfile, code.join("\n"))
     end
