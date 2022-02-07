@@ -1,6 +1,5 @@
 require 'speculations/parser'
 RSpec.describe Speculations::Parser do
-
   let(:fixture){ fixtures_path("INCLUDES_INTERRUPTED.md") }
   let(:parser) { described_class.new }
   let(:ast)    { parser.parse_from_file(fixture) }
@@ -11,9 +10,8 @@ RSpec.describe Speculations::Parser do
 
     it "they have the same lines" do
       actual_code.zip(expected_code).each_with_index do |(actual_line, expected_line), idx|
-        expect( "#{idx.succ}: #{actual_line}" ).to eq("#{idx.succ}: #{expected_line}")
+        expect("#{idx.succ}: #{actual_line}").to eq("#{idx.succ}: #{expected_line}")
       end
     end
   end
-
 end

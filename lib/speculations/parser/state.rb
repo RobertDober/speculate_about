@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Speculations::Parser::State extend self
   require_relative './state/candidate'
   require_relative './state/in'

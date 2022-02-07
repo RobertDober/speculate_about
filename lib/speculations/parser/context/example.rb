@@ -1,15 +1,15 @@
-class Speculations::Parser::Context::Example
+# frozen_string_literal: true
 
+class Speculations::Parser::Context::Example
   attr_reader :lnb, :title, :parent
 
-
-  def add_line line
+  def add_line(line)
     lines << line
     self
   end
 
   def lines
-     @__lines__ ||= [] 
+    @__lines__ ||= []
   end
 
   def to_code
@@ -17,7 +17,6 @@ class Speculations::Parser::Context::Example
       parent.map_lines(lines, indent: 1) +
       parent.map_lines("end")
   end
-
 
   private
 
@@ -32,6 +31,6 @@ class Speculations::Parser::Context::Example
   end
 
   def _example_head
-    %{it "#{title}" do}
+    %(it "#{title}" do)
   end
 end
