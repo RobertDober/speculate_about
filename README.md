@@ -7,7 +7,7 @@
 # Speculate About
 
 
-## What is it
+## What is it?
 
 A Literate Programming TDD/BDD intented as a [QED](https://github.com/rubyworks/qed/) replacement
 
@@ -46,11 +46,14 @@ end
 Speculate allows to extract `RSpec` contexts, examples, `lets` and other macros, as well as `before`
 blocks from any text file.
 
+As a matter of fact this file's speculations are tested with `speculate_about` meaning: _itself!_
 
 ```sh
   speculate a_relative_path # --> creates spec/speculations#{a_relative_path}_spec.rb
 
-  speculate **/*.md
+  speculate **/*.md # which is the default and can therefore be omitted →
+
+  speculate
 ```
 
 Now what will the code above do?
@@ -77,7 +80,7 @@ then the `speculate` binary will create a file `spec/speculations/doc/desc_rspec
      # This file is generated from "doc/desc.md" with the speculate_about gem, if you modify this file
      # one of two bad things will happen
      # - your documentation specs are not correct
-     # - your modifications will be overwritten by the speculate rake task
+     # - your modifications will be overwritten by the speculate CLI
      # YOU HAVE BEEN WARNED
      RSpec.describe "doc/desc.md" do
 
@@ -126,6 +129,7 @@ which, needs to be immediately followed by a ` ~~~ruby` code block (backticks ar
 
 ## LICENSE
 
-Copyright 2020 Robert Dober robert.dober@gmail.com
+Copyright 202[0-2] Robert Dober robert.dober@gmail.com
 
 Apache-2.0 [c.f LICENSE](LICENSE)
+<!-- SPDX-License-Identifier: Apache-2.0 -->
