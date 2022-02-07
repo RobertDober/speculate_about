@@ -31,7 +31,7 @@ SimpleCov.start do
 end
 
 RSPEC_ROOT = File.dirname(__FILE__)
-Dir.glob(File.expand_path('support/**/*.rb',RSPEC_ROOT)).each{ |f| require f }
+Dir.glob(File.expand_path('support/**/*.rb', RSPEC_ROOT)).sort.each{ |f| require f }
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

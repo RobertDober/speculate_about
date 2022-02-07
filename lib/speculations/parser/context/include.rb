@@ -1,14 +1,15 @@
-class Speculations::Parser::Context::Include
+# frozen_string_literal: true
 
+class Speculations::Parser::Context::Include
   attr_reader :lnb, :parent
 
-  def add_line line
+  def add_line(line)
     lines << line
     self
   end
 
   def lines
-     @__lines__ ||= []
+    @__lines__ ||= []
   end
 
   def to_code

@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 module Speculations
   class Parser
     require_relative './parser/context'
     require_relative './parser/state'
-
 
     def self.parsers
       @__parsers__ ||= {
@@ -13,12 +14,12 @@ module Speculations
       }
     end
 
-    def parse_from_file file
+    def parse_from_file(file)
       @filename = file
       @input = File
-        .new(file)
-        .each_line(chomp: true)
-        .lazy
+               .new(file)
+               .each_line(chomp: true)
+               .lazy
       parse!
     end
 

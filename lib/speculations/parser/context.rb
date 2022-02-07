@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Speculations
   class Parser
     class Context
@@ -6,22 +8,22 @@ module Speculations
 
       attr_reader :filename, :level, :lnb, :title, :parent, :root, :tree_level
 
-      def new_context(title:, lnb:, level: )
-        new_child = self.class.new(title: title, lnb: lnb, parent: self, level: level)
+      def new_context(title:, lnb:, level:)
+        new_child = self.class.new(title:, lnb:, parent: self, level:)
         _realign_levels(new_child)
       end
 
       def new_example(lnb:, title:)
-        examples << Example.new(lnb: lnb, parent: self, title: title)
+        examples << Example.new(lnb:, parent: self, title:)
         examples.last
       end
 
       def new_include(lnb:)
-        includes << Include.new(lnb: lnb, parent: self)
+        includes << Include.new(lnb:, parent: self)
         includes.last
       end
 
-      def parent_of_level needed_min_level
+      def parent_of_level(needed_min_level)
         # I would love to write
         # self.enum_by(:parent).find{ |ctxt| ctxt.level <= needed_min_level }
         current = self
@@ -58,12 +60,11 @@ module Speculations
         ].flatten.compact
       end
 
-      def with_new_parent new_parent
+      def with_new_parent(new_parent)
         @parent = new_parent
         @tree_level += 1
         self
       end
-
 
       private
 
@@ -83,7 +84,7 @@ module Speculations
 
       def _header
         if parent
-          map_lines(%{# #{filename}:#{lnb}}, %{context "#{title}" do}, indent: -1)
+          map_lines(%(# #{filename}:#{lnb}), %(context "#{title}" do), indent: -1)
         else
           []
         end
@@ -103,7 +104,7 @@ module Speculations
         end
       end
 
-      def _realign_levels new_parent
+      def _realign_levels(new_parent)
         if children.empty? || children.first.level == new_parent.level
           children << new_parent
           return new_parent
@@ -114,7 +115,6 @@ module Speculations
         @__children__ = [new_parent]
         new_parent
       end
-
     end
   end
 end
