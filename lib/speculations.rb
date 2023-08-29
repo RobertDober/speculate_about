@@ -1,6 +1,9 @@
 require 'fileutils'
 require_relative 'speculations/parser'
+require_relative 'speculations/reporter'
 module Speculations extend self
+
+  include Reporter
 
       DISCLAIMER = <<-EOD
 # DO NOT EDIT!!!
@@ -11,11 +14,12 @@ module Speculations extend self
 # YOU HAVE BEEN WARNED
       EOD
 
-  def compile(infile, outfile=nil)
+  def compile(infile, options)
     raise ArgumentError, "#{infile} not found" unless File.readable? infile
-    outfile ||= _speculation_path(infile)
+    outfile = _speculation_path(infile)
     if _out_of_date?(outfile, infile)
-      ast  = Speculations::Parser.new.parse_from_file(infile)
+      say("recompiling: #{infile} -> #{outfile}", options, underline: '=')
+      ast  = Speculations::Parser.new.parse_from_file(infile, options)
       code = _decorated_ast_code ast, infile
       File.write(outfile, code.join("\n"))
     end

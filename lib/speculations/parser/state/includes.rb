@@ -5,7 +5,7 @@ module Speculations
       module Includes extend self
         include ContextMaker
 
-        def parse line, lnb, node, _ctxt
+        def parse line, lnb, node, _ctxt, options
           case
           when match = State.context_match(line)
             make_new_context(lnb: lnb, node: node, match: match)

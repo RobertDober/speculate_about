@@ -2,7 +2,7 @@ module Speculations
   class Parser
     module State
       module Candidate extend self
-        def parse line, lnb, node, ctxt
+        def parse line, lnb, node, ctxt, options
           case
           when State.blank_line(line)
             [:candidate, node, ctxt]

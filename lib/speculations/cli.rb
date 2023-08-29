@@ -1,4 +1,6 @@
+# frozen_string_literal: true
 
+require 'ostruct'
 module Speculations
   module CLI extend self
     def run args
@@ -17,11 +19,29 @@ module Speculations
     private
 
     def _compile_and_maybe_run args
+      state = _parse(args)
       require_relative "../speculations"
-      args = Dir.glob(["*.md", "speculations/**/*.md"]) if args.empty?
-        args.each do |input_file|
-          Speculations.compile(input_file)
+      positionals = Dir.glob(["*.md", "speculations/**/*.md"]) if state.positionals.empty?
+      positionals.each do |input_file|
+        Speculations.compile(input_file, OpenStruct.new(state.kwds).freeze)
+      end
+    end
+
+    def _parse(args)
+      args.inject(OpenStruct.new(kwds: {}, positionals: [], current: nil), &_parse_arg)
+    end
+
+    def _parse_arg
+      -> state, arg do
+        if arg == '--verbose'
+          state.kwds.update(verbose: true)
+        elsif arg.start_with?('--')
+          raise ArgumentError, "illegal option #{arg}"
+        else
+          state.positionals << arg
         end
+        state
+      end
     end
 
     def _usage
