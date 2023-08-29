@@ -30,7 +30,7 @@ module Speculations extend self
   end
 
   def _out_of_date?(outf, inf)
-    return true unless File.exists? outf
+    return true unless File.exist? outf
     return File.lstat(outf).mtime <= File.lstat(inf).mtime
   end
 
